@@ -1,19 +1,19 @@
 #include "big_integer.hpp"
 
-big_integer::big_integer::big_integer(std::string _number) : number{ _number } {};
+integer::big_integer::big_integer(std::string _number) : number{ _number } {};
 
-big_integer::big_integer::big_integer(big_integer&& move)
+integer::big_integer::big_integer(big_integer&& move) noexcept
 {
 	this->number = std::move(move.number);
 }
 
-big_integer::big_integer& big_integer::big_integer::operator=(big_integer&& move)
+integer::big_integer& integer::big_integer::operator=(big_integer&& move) noexcept
 {
 	this->number = std::move(move.number);
 	return *this;
 }
 
-big_integer::big_integer big_integer::big_integer::operator+(const big_integer& integer) const
+integer::big_integer integer::big_integer::operator+(const big_integer& integer) const
 {
 	std::string _integer{}, one_num{}, two_num{};
 	int _number{}, one{};
@@ -69,7 +69,20 @@ big_integer::big_integer big_integer::big_integer::operator+(const big_integer& 
 	return big_integer{ _reverse_integer };
 }
 
-std::ostream& big_integer::operator<<(std::ostream& out, const big_integer& integer)
+integer::big_integer integer::big_integer::operator*(const int& _number) const
+{
+	int count{1};
+	big_integer one(this->number);
+	big_integer two(this->number);
+	while (count < _number)
+	{
+		one = one + two;
+		++count;
+	}
+	return one;
+}
+
+std::ostream& integer::operator<<(std::ostream& out, const integer::big_integer& integer)
 {
 	out << integer.number;
 	return out;
